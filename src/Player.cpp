@@ -7,9 +7,9 @@ class Player{
 private:
     int posX, posY;
 public:
-    Player(){
-        posX=0;
-        posY=0;
+    Player(int x=0, int y=0){
+        posX(x);
+        posY(y);
     }
 
     int getX() const {
