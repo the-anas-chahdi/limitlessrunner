@@ -27,4 +27,9 @@ public:
     void setY(int y){
         posY = y;
     }
+
+    void move(int dx, int dy){
+        posX += dx;
+        posY += dy;
+    }
 };
