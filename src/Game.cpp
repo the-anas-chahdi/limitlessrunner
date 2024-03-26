@@ -1,46 +1,96 @@
 //
 // Created by anasc on 25/03/2024.
 //
-#include <iostream>
 #include "Game.h"
+#include <iostream>
+#include "C:/msys64/mingw64/include/ncurses/ncurses.h"
+#include <cstdlib>
 #include "Player.h"
 
 using namespace std;
 
-class Game {
-private:
-    bool isRunning;
-    Player player;
-    int maxObstacles;
-    int* obstacles;
+Game::Game() {
+    isRunning = true;
+    player = Player(0, 0);
+    maxObstacles = 100;
 
-    void update(){
-        cout << "Màj" << endl;
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    curs_set(0);
+
+    obstacles = new int[maxObstacles];
+    for(int i=0; i<maxObstacles; ++i){
+        obstacles[i] = -1; //initialiser les obstacles en dehors de la fenetre
     }
+}
 
-public:
-    Game() {
-        isRunning = true;
-        player = Player(0, 0);
-        maxObstacles = 100;
-        obstacles = new int[maxObstacles];
-        for(int i=0; i<maxObstacles; ++i){
-            obstacles[i] = -1; //initialiser les obstacles en dehors de la fenetre
+Game::~Game(){
+    delete[] obstacles;
+    endwin();
+}
+
+void Game::run(){
+    while(isRunning){
+        handleInput();
+        update();
+        render();
+    }
+}
+
+void Game::handleInput(){
+    int ch = getch();
+    switch(ch){
+        case KEY_RIGHT:
+            player.setX(player.getX() + 1); //deplacer le player à droite
+            break;
+        case KEY_LEFT:
+            player.setX(player.getX() - 1); //à gauche
+            break;
+        case KEY_UP:
+            player.setY(player.getY() + 1); //sauter
+            break;
+        case 'q':
+            isRunning = false; //quitter la partie
+            break;
+        case 'Q':
+            isRunning = false; //quitter la partie
+            break;
+    }
+}
+
+void Game::update() {
+    if (rand() % 10 == 0) {
+        for (int i = 0; i < maxObstacles; ++i) {
+            if (obstacles[i] == -1) {
+                obstacles[i] = 0;
+                break;
+            }
         }
     }
 
-    ~Game(){
-        delete[] obstacles;
-    }
-
-    void run(){
-        while(isRunning){
-            handleInput();
-            update();
+    for (int i = 0; i < maxObstacles; ++i) {
+        if (obstacles[i] != -1) {
+            obstacles[i]++;
         }
     }
 
-    void handleInput(){
-
+    for (int i = 0; i < maxObstacles; ++i) {
+        if (obstacles[i] >= COLS) {
+            obstacles[i] = -1;
+        }
     }
-};
+}
+
+void Game::render() {
+    clear();
+    mvaddch(LINES - 1, player.getX(), 'P');
+    for (int i = 0; i < maxObstacles; ++i) {
+        if (obstacles[i] != -1 && obstacles[i] < COLS) {
+            mvaddch(LINES - 1, obstacles[i], '*');
+        }
+    }
+    mvhline(0, 0, '-', COLS);
+    refresh();
+}

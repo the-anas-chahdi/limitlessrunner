@@ -3,33 +3,29 @@
 //
 
 #include "Player.h"
-class Player{
-private:
-    int posX, posY;
-public:
-    Player(int x=0, int y=0){
-        posX(x);
-        posY(y);
-    }
 
-    int getX() const {
-        return posX;
-    }
+Player::Player(int x, int y){
+    posX = x;
+    posY = y;
+}
 
-    int getY() const {
-        return posY;
-    }
+int Player::getX() const {
+    return posX;
+}
 
-    void setX(int x){
-        posX = x;
-    }
+int Player::getY() const {
+    return posY;
+}
 
-    void setY(int y){
-        posY = y;
-    }
+void Player::setX(int x){
+    posX = x;
+}
 
-    void move(int dx, int dy){
-        posX += dx;
-        posY += dy;
-    }
-};
+void Player::setY(int y){
+    posY = y;
+}
+
+void Player::move(int dx, int dy){
+    posX += dx;
+    posY += dy;
+}
