@@ -11,4 +11,20 @@ public:
         posX=0;
         posY=0;
     }
+
+    int getX() const {
+        return posX;
+    }
+
+    int getY() const {
+        return posY;
+    }
+
+    void setX(int x){
+        posX = x;
+    }
+
+    void setY(int y){
+        posY = y;
+    }
 };
