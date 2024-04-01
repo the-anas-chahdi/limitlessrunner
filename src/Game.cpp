@@ -2,7 +2,6 @@
 // Created by anasc on 25/03/2024.
 //
 #include "Game.h"
-#include <iostream>
 #include <ncurses.h>
 #include <cstdlib>
 #include "Player.h"
