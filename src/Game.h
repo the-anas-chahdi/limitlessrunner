@@ -6,7 +6,7 @@
 #define LIMITLESSRUNNER_GAME_H
 
 #include "Player.h"
-#include "C:/msys64/mingw64/include/ncurses/ncurses.h"
+#include <ncurses.h>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>

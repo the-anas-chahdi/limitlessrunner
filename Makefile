@@ -4,26 +4,35 @@ CC = g++
 # Compiler flags
 CFLAGS = -std=c++14 -Wall
 
+# Source directory
+SRC_DIR = src
+# Object directory
+OBJ_DIR = obj
+# Binary directory
+BIN_DIR = bin
+
 # Source files
-SRCS = main.cpp Game.cpp Player.cpp
-
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 # Object files
-OBJS = $(SRCS:.cpp=.o)
-
+OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 # Executable
-EXEC = LimitlessRunner.exe
+EXEC = $(BIN_DIR)/LimitlessRunner
 
 # Default rule
-all: $(EXEC)
+all: directories $(EXEC)
+
+# Create necessary directories
+directories:
+	mkdir -p $(OBJ_DIR) $(BIN_DIR)
 
 # Linking
 $(EXEC): $(OBJS)
-    $(CC) $(CFLAGS) $^ -o $@ -lncurses
+	$(CC) $(CFLAGS) $^ -o $@ -lncurses
 
 # Compilation
-%.o: %.cpp
-    $(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean
 clean:
-    rm -f $(EXEC) $(OBJS)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)

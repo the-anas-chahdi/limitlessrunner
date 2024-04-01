@@ -3,7 +3,7 @@
 //
 #include "Game.h"
 #include <iostream>
-#include "C:/msys64/mingw64/include/ncurses/ncurses.h"
+#include <ncurses.h>
 #include <cstdlib>
 #include "Player.h"
 
