@@ -18,6 +18,8 @@ Game::Game() {
     isRunning = true;
     player = Player(2, LINES - 2);
     maxObstacles = 100;
+    isJumping = false;
+    gravity = 1;
 
     obstacles = new int[maxObstacles];
     for(int i=0; i<maxObstacles; ++i){
@@ -28,6 +30,7 @@ Game::Game() {
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);
+    nodelay(stdscr, TRUE);
 }
 
 Game::~Game(){
@@ -37,57 +40,80 @@ Game::~Game(){
 
 void Game::run(){
     while(isRunning){
-        handleInput();
         update();
         render();
-    }
-}
-
-void Game::handleInput(){
-    int ch = getch();
-    switch(ch){
-        case KEY_RIGHT:
-            player.setX(player.getX() + 1); // Move the player right
-            break;
-        case KEY_LEFT:
-            player.setX(player.getX() - 1); // Move the player left
-            break;
-        case KEY_UP:
-            player.setY(player.getY() - 1); // Move the player up
-            break;
-        case KEY_DOWN:
-            player.setY(player.getY() + 1); // Move the player up
-            break;
-        case 'q':
-            isRunning = false; // Quit the game
-            break;
-        case 'Q':
-            isRunning = false; // Quit the game
-            break;
+        napms(50);
     }
 }
 
 void Game::update() {
+    // Move obstacles
+    for (int i = 0; i < maxObstacles; ++i) {
+        if (obstacles[i] != -1) {
+            obstacles[i]--;
+            if (obstacles[i] < 0) {
+                obstacles[i] = COLS - 1;
+            }
+        }
+    }
+
     if (rand() % 10 == 0) {
         for (int i = 0; i < maxObstacles; ++i) {
             if (obstacles[i] == -1) {
-                obstacles[i] = COLS-1;
+                obstacles[i] = COLS - 1;
                 break;
             }
         }
     }
 
-    for (int i = 0; i < maxObstacles; ++i) {
-        if (obstacles[i] != -1) {
-            obstacles[i]--;
+    if (isJumping) {
+        player.setY(player.getY() - jumpVelocity);
+        jumpVelocity--;
+
+        if (jumpVelocity < -2) {
+            isJumping = false;
+            jumpVelocity = 2;
+        }
+    } else {
+        int newY = player.getY() + gravity;
+
+        // verifier la collision avec le sol
+        if (newY >= LINES - 2) {
+            player.setY(LINES - 2);
+        } else {
+            player.setY(newY);
         }
     }
 
-    for (int i = 0; i < maxObstacles; ++i) {
-        if (obstacles[i] >= COLS) {
-            obstacles[i] = -1;
+    int ch = getch();
+    if(ch != ERR) {
+        switch(ch){
+            case KEY_RIGHT:
+                player.setX(player.getX() + 1);
+                break;
+            case KEY_LEFT:
+                player.setX(player.getX() - 1);
+                break;
+            case KEY_UP:
+                if (!isJumping) {
+                    isJumping = true;
+                    jumpVelocity = 2;
+                } else {
+                    jumpVelocity *= 2; //super jump
+                }
+                break;
+            case KEY_DOWN:
+                player.setY(player.getY() + 1);
+                break;
+            case 'q':
+                isRunning = false;
+                break;
+            case 'Q':
+                isRunning = false;
+                break;
         }
     }
+
 }
 
 void Game::render() {

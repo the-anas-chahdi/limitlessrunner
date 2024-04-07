@@ -17,6 +17,9 @@ private:
     Player player;
     int maxObstacles;
     int* obstacles;
+    bool isJumping;
+    int jumpVelocity;
+    int gravity;
 
 public:
     Game();

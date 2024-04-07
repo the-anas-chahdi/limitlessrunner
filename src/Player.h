@@ -4,13 +4,14 @@
 
 #ifndef LIMITLESSRUNNER_PLAYER_H
 #define LIMITLESSRUNNER_PLAYER_H
+#include <ncurses.h>
 
 class Player {
 private:
     int posX, posY;
 
 public:
-    Player(int x = 0, int y = 0);
+    Player(int x = 2, int y = LINES - 2);
     int getX() const;
     int getY() const;
     void setX(int x);
