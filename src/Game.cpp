@@ -9,20 +9,25 @@
 using namespace std;
 
 Game::Game() {
-    isRunning = true;
-    player = Player(2, LINES-2);
-    maxObstacles = 100;
-
     initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    curs_set(0);
+    if (LINES < 3 || COLS < 3) {
+        endwin();
+        cout << "Terminal window size is too small!" << endl;
+        exit(EXIT_FAILURE);
+    }
+    isRunning = true;
+    player = Player(2, LINES - 2);
+    maxObstacles = 100;
 
     obstacles = new int[maxObstacles];
     for(int i=0; i<maxObstacles; ++i){
         obstacles[i] = -1; //initialiser les obstacles en dehors de la fenetre
     }
+
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    curs_set(0);
 }
 
 Game::~Game(){
@@ -42,19 +47,22 @@ void Game::handleInput(){
     int ch = getch();
     switch(ch){
         case KEY_RIGHT:
-            player.setX(player.getX() + 1); //deplacer le player à droite
+            player.setX(player.getX() + 1); // Move the player right
             break;
         case KEY_LEFT:
-            player.setX(player.getX() - 1); //à gauche
+            player.setX(player.getX() - 1); // Move the player left
             break;
         case KEY_UP:
-            player.setY(player.getY() - 5);
+            player.setY(player.getY() - 1); // Move the player up
+            break;
+        case KEY_DOWN:
+            player.setY(player.getY() + 1); // Move the player up
             break;
         case 'q':
-            isRunning = false; //quitter la partie
+            isRunning = false; // Quit the game
             break;
         case 'Q':
-            isRunning = false; //quitter la partie
+            isRunning = false; // Quit the game
             break;
     }
 }
@@ -84,10 +92,10 @@ void Game::update() {
 
 void Game::render() {
     clear();
-    mvaddch(LINES - 1, player.getX(), 'P');
+    mvaddch(player.getY(), player.getX(), 'P');
     for (int i = 0; i < maxObstacles; ++i) {
         if (obstacles[i] != -1 && obstacles[i] < COLS) {
-            mvaddch(LINES - 1, obstacles[i], '*');
+            mvaddch(LINES - 2, obstacles[i], '*');
         }
     }
     mvhline(0, 0, '-', COLS);
