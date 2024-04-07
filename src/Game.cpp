@@ -10,7 +10,7 @@ using namespace std;
 
 Game::Game() {
     isRunning = true;
-    player = Player(0, 0);
+    player = Player(2, LINES-2);
     maxObstacles = 100;
 
     initscr();
@@ -48,7 +48,7 @@ void Game::handleInput(){
             player.setX(player.getX() - 1); //à gauche
             break;
         case KEY_UP:
-            player.setY(player.getY() + 1); //sauter
+            player.setY(player.getY() - 5);
             break;
         case 'q':
             isRunning = false; //quitter la partie
@@ -63,7 +63,7 @@ void Game::update() {
     if (rand() % 10 == 0) {
         for (int i = 0; i < maxObstacles; ++i) {
             if (obstacles[i] == -1) {
-                obstacles[i] = 0;
+                obstacles[i] = COLS-1;
                 break;
             }
         }
@@ -71,7 +71,7 @@ void Game::update() {
 
     for (int i = 0; i < maxObstacles; ++i) {
         if (obstacles[i] != -1) {
-            obstacles[i]++;
+            obstacles[i]--;
         }
     }
 
