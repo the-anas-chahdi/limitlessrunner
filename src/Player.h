@@ -8,9 +8,6 @@
 class Player {
 private:
     int posX, posY;
-    bool jumping;
-    //
-    int verticalVelocity;
 
 public:
     Player(int x = 0, int y = 0);
