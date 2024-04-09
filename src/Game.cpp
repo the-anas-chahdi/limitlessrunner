@@ -17,7 +17,7 @@ Game::Game() {
     }
     isRunning = true;
     player = Player(2, LINES - 2);
-    maxObstacles = 100;
+    maxObstacles = 50;
     isJumping = false;
     gravity = 1;
 
@@ -47,7 +47,6 @@ void Game::run(){
 }
 
 void Game::update() {
-    // Move obstacles
     for (int i = 0; i < maxObstacles; ++i) {
         if (obstacles[i] != -1) {
             obstacles[i]--;
@@ -60,8 +59,19 @@ void Game::update() {
     if (rand() % 10 == 0) {
         for (int i = 0; i < maxObstacles; ++i) {
             if (obstacles[i] == -1) {
-                obstacles[i] = COLS - 1;
-                break;
+                // verifier l'espacement
+                int spacing = rand() % (COLS / 4);
+                bool isValid = true;
+                for (int j = max(0, i - spacing); j < i; ++j) {
+                    if (obstacles[j] != -1 && obstacles[j] > COLS - spacing) {
+                        isValid = false;
+                        break;
+                    }
+                }
+                if (isValid) {
+                    obstacles[i] = COLS - 1;
+                    break;
+                }
             }
         }
     }

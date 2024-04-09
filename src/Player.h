@@ -16,7 +16,6 @@ public:
     int getY() const;
     void setX(int x);
     void setY(int y);
-    void move(int dx, int dy);
 };
 
 #endif //LIMITLESSRUNNER_PLAYER_H

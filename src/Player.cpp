@@ -24,8 +24,3 @@ void Player::setX(int x){
 void Player::setY(int y){
     posY = y;
 }
-
-void Player::move(int dx, int dy){
-    posX += dx;
-    posY += dy;
-}
