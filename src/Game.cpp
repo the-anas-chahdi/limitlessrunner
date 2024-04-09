@@ -56,7 +56,7 @@ void Game::update() {
         }
     }
 
-    if (rand() % 10 == 0) {
+    if (rand() % 20 == 0) {
         for (int i = 0; i < maxObstacles; ++i) {
             if (obstacles[i] == -1) {
                 // verifier l'espacement
@@ -68,7 +68,7 @@ void Game::update() {
                         break;
                     }
                 }
-                if (isValid) {
+                if (isValid && (i == 0 || obstacles[i - 1] == -1 || obstacles[i - 1] < COLS - 4 || (obstacles[i - 1] > COLS - 4 && obstacles[i - 1] < COLS - 1))) {
                     obstacles[i] = COLS - 1;
                     break;
                 }
