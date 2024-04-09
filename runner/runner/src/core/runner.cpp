@@ -1,4 +1,3 @@
-// Dans le fichier runner.cpp
 
 #include "runner.h"
 
