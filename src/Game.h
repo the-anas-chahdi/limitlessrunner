@@ -28,6 +28,7 @@ public:
     void handleInput();
     void update();
     void render();
+    void checkCollisions();
 };
 
 #endif //LIMITLESSRUNNER_GAME_H

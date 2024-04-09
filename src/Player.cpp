@@ -30,7 +30,7 @@ int Player::getLives() const{
     return lives;
 }
 
-int PLayer::setLives(int newLives){
+void Player::setLives(int newLives){
     lives = newLives;
 }
 

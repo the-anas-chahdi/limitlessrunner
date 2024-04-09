@@ -16,7 +16,7 @@ Game::Game() {
         exit(EXIT_FAILURE);
     }
     isRunning = true;
-    player = Player(2, LINES - 2);
+    player = Player(2, LINES - 2, 3);
     maxObstacles = 50;
     isJumping = false;
     gravity = 1;
@@ -47,6 +47,8 @@ void Game::run(){
 }
 
 void Game::update() {
+    checkCollisions();
+
     for (int i = 0; i < maxObstacles; ++i) {
         if (obstacles[i] != -1) {
             obstacles[i]--;
@@ -135,5 +137,17 @@ void Game::render() {
         }
     }
     mvhline(0, 0, '-', COLS);
+    mvprintw(0, COLS - 10, "Lives: %d", player.getLives());
     refresh();
+}
+
+void Game::checkCollisions() {
+    for (int i = 0; i < maxObstacles; ++i) {
+        if (obstacles[i] != -1 && obstacles[i] == player.getX() && player.getY() == LINES - 2) {
+            player.loseLife();
+            if (player.getLives() <= 0) {
+                isRunning = false;
+            }
+        }
+    }
 }

@@ -18,7 +18,7 @@ public:
     void setX(int x);
     void setY(int y);
     int getLives() const;
-    int setLives(int newLives);
+    void setLives(int newLives);
     void loseLife();
 };
 
