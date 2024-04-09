@@ -4,9 +4,10 @@
 
 #include "Player.h"
 
-Player::Player(int x, int y){
+Player::Player(int x, int y, int startingLives){
     posX = x;
     posY = y;
+    lives = startingLives;
 }
 
 int Player::getX() const {
@@ -23,4 +24,16 @@ void Player::setX(int x){
 
 void Player::setY(int y){
     posY = y;
+}
+
+int Player::getLives() const{
+    return lives;
+}
+
+int PLayer::setLives(int newLives){
+    lives = newLives;
+}
+
+void Player::loseLife() {
+    lives--;
 }
