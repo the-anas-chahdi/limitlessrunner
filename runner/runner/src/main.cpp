@@ -12,7 +12,7 @@ int main() {
     }
     SDLGame sdlGame;
     if (!sdlGame.init("Runner Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false)) {
-        std::cerr << "Erreur initialisation de SDL." << std::endl;
+        std::cerr << "Erreur initialisation de sdl2." << std::endl;
         return 1;
     }
     while (!game.isGameOver()) {

@@ -11,7 +11,7 @@ SDL_Texture* SDLTextures::loadTexture(SDL_Renderer* renderer, const std::string&
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
     if (!texture) {
-        std::cerr << "Unable to create texture from " << filePath << "! SDL Error: " << SDL_GetError() << std::endl;
+        std::cerr << "Unable to create texture from " << filePath << "! sdl2 Error: " << SDL_GetError() << std::endl;
     }
     SDL_FreeSurface(loadedSurface);
 

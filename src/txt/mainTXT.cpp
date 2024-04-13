@@ -1,7 +1,7 @@
 //
 // Created by anasc on 26/03/2024.
 //
-#include "Game.h"
+#include "../core/Game.h"
 
 int main() {
     srand(time(NULL));

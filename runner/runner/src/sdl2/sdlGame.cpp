@@ -18,7 +18,7 @@ SDLGame::~SDLGame() {
 }
 bool SDLGame::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "Erreur initialisation de SDL : " << SDL_GetError() << std::endl;
+        std::cerr << "Erreur initialisation de sdl2 : " << SDL_GetError() << std::endl;
         return false;
     }
 
@@ -35,7 +35,7 @@ bool SDLGame::init(const char* title, int xpos, int ypos, int width, int height,
     }
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-        std::cerr << "Erreur initialisation de SDL image : " << IMG_GetError() << std::endl;
+        std::cerr << "Erreur initialisation de sdl2 image : " << IMG_GetError() << std::endl;
         return false;
     }
     textureRunner = loadTexture("runner.png");
