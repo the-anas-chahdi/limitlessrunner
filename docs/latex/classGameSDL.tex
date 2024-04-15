@@ -1,0 +1,56 @@
+\hypertarget{classGameSDL}{}\doxysection{Game\+SDL Class Reference}
+\label{classGameSDL}\index{GameSDL@{GameSDL}}
+
+
+La classe \mbox{\hyperlink{classGameSDL}{Game\+SDL}} gère l\textquotesingle{}initialisation et l\textquotesingle{}exécution du jeu.  
+
+
+
+
+{\ttfamily \#include $<$Game\+SDL.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGameSDL_a027f306b43231f0bc1f7f48169039801}\label{classGameSDL_a027f306b43231f0bc1f7f48169039801}} 
+bool \mbox{\hyperlink{classGameSDL_a027f306b43231f0bc1f7f48169039801}{init}} ()
+\begin{DoxyCompactList}\small\item\em Initialise SDL et crée la fenêtre du jeu. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGameSDL_a96bf3b9ecc602c56f7a7ae72d75bda3c}\label{classGameSDL_a96bf3b9ecc602c56f7a7ae72d75bda3c}} 
+bool {\bfseries load\+Media} ()
+\item 
+\mbox{\Hypertarget{classGameSDL_ab2a72a516f3f0fd11de384695b89a51b}\label{classGameSDL_ab2a72a516f3f0fd11de384695b89a51b}} 
+bool {\bfseries load\+Ins} ()
+\item 
+\mbox{\Hypertarget{classGameSDL_ab322a141b79977bbdbf12661cc24f2bf}\label{classGameSDL_ab322a141b79977bbdbf12661cc24f2bf}} 
+bool {\bfseries load\+WIN} ()
+\item 
+\mbox{\Hypertarget{classGameSDL_a3dd22cf9c29fe3dbc78ece548895ef65}\label{classGameSDL_a3dd22cf9c29fe3dbc78ece548895ef65}} 
+bool {\bfseries load\+LOST} ()
+\item 
+\mbox{\Hypertarget{classGameSDL_a6898c095f86195506cc5604c192c41b9}\label{classGameSDL_a6898c095f86195506cc5604c192c41b9}} 
+bool \mbox{\hyperlink{classGameSDL_a6898c095f86195506cc5604c192c41b9}{load\+Grid}} ()
+\begin{DoxyCompactList}\small\item\em Charge les textures nécessaires pour le jeu. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGameSDL_aba85e0d46ba709a40173f9e76e2512b0}\label{classGameSDL_aba85e0d46ba709a40173f9e76e2512b0}} 
+void {\bfseries close} ()
+\item 
+\mbox{\Hypertarget{classGameSDL_a2f8b610de41b8ea625078a30baa62cac}\label{classGameSDL_a2f8b610de41b8ea625078a30baa62cac}} 
+SDL\+\_\+\+Texture $\ast$ {\bfseries load\+Texture} (std\+::string path)
+\item 
+\mbox{\Hypertarget{classGameSDL_a7c199a0f5fbf93e36caa3a0c78cf1f6e}\label{classGameSDL_a7c199a0f5fbf93e36caa3a0c78cf1f6e}} 
+void {\bfseries run} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGameSDL_a84e91236345fadf0e21f1d851a0da62d}\label{classGameSDL_a84e91236345fadf0e21f1d851a0da62d}} 
+int {\bfseries state} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+La classe \mbox{\hyperlink{classGameSDL}{Game\+SDL}} gère l\textquotesingle{}initialisation et l\textquotesingle{}exécution du jeu. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/sdl2/Game\+SDL.\+h\item 
+src/sdl2/\mbox{\hyperlink{GameSDL_8cpp}{Game\+SDL.\+cpp}}\end{DoxyCompactItemize}
