@@ -1,24 +1,32 @@
-//
-// Created by anas on 13/04/24.
-//
-
+/**
+ * @file PlayerSDL.h
+ * @author damiyine loubna - anas chahdi
+ * @brief
+ * @version 0.1
+ * @date 2024-04-15
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
 #ifndef LIMITLESSRUNNER_PLAYERSDL_H
 #define LIMITLESSRUNNER_PLAYERSDL_H
+#include <SDL2/SDL.h>
+#include "Drawing.h"
+#include "Unit.h"
 
 class PlayerSDL {
-private:
-    int posX, posY;
-    int lives;
+    SDL_Rect srcRect, moverRect;
+    friend class RunningPlayer;
 
 public:
-    PlayerSDL(int x = 2, int y = 600 - 2, int startingLives = 3);
-    int getX() const;
-    int getY() const;
-    void setX(int x);
-    void setY(int y);
-    int getLives() const;
-    void setLives(int newLives);
-    void loseLife();
+    void draw();
+    PlayerSDL();
+    bool check;
+    void moving();
+    void jump();
+    int i;
+    int frame = 0;
+    ~PlayerSDL();
 };
 
 #endif //LIMITLESSRUNNER_PLAYERSDL_H
