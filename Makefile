@@ -53,7 +53,7 @@ documentation:
 
 # Clean
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR) $(DOC_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 # Clean documentation
 cleandoc:
