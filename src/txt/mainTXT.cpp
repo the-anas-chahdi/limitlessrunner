@@ -1,6 +1,4 @@
-//
-// Created by anasc on 26/03/2024.
-//
+
 #include "../core/Game.h"
 
 int main() {

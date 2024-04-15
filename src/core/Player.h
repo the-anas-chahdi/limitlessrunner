@@ -1,7 +1,13 @@
-//
-// Created by anasc on 25/03/2024.
-//
-
+/**
+ * @file Player.h
+ * @author damiyine loubna - anas chahdi
+ * @brief
+ * @version 0.1
+ * @date 2024-04-15
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
 #ifndef LIMITLESSRUNNER_PLAYER_H
 #define LIMITLESSRUNNER_PLAYER_H
 #include <ncurses.h>

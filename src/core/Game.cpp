@@ -1,14 +1,29 @@
-//
-// Created by anasc on 25/03/2024.
-//
+/**
+ * @file Game.cpp
+ * @author damiyine loubna - anas chahdi
+ * @brief 
+ * @version 0.1
+ * @date 2024-04-15
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+
 #include "Game.h"
 #include <ncurses.h>
 #include <cstdlib>
 #include "Player.h"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
 Game::Game() {
+    /**
+ * @brief 
+ * Libère la mémoire alloue dynamiquement et nettoie ncurses à la fin du jeu
+ */
     initscr();
     if (LINES < 3 || COLS < 3) {
         endwin();
@@ -16,14 +31,18 @@ Game::Game() {
         exit(EXIT_FAILURE);
     }
     isRunning = true;
-    player = Player(2, LINES - 2, 3);
-    maxObstacles = 50;
+    player = Player(2, LINES - 2, 10);
+    maxObstacles = 20;
+    obstacles = new Obstacle[maxObstacles];
     isJumping = false;
+    canDoubleJump = false; // Initialize the ability to double jump
+    jumpVelocity = 0;
     gravity = 1;
-
-    obstacles = new int[maxObstacles];
+    score = 0;
     for(int i=0; i<maxObstacles; ++i){
-        obstacles[i] = -1; //initialiser les obstacles en dehors de la fenetre
+        //initialiser les obstacles en dehors de la fenetre
+        obstacles[i].setX(-1);
+        obstacles[i].setY(LINES-2);
     }
 
     cbreak();
@@ -39,42 +58,44 @@ Game::~Game(){
 }
 
 void Game::run(){
+    /** @brief Vérifie les collisions et met à jour la position des obstacles et du joueur et traite l'entrée utilisateur
+ */
+    std::chrono::steady_clock::time_point lastTime = std::chrono::steady_clock::now();
     while(isRunning){
+        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+        std::chrono::milliseconds elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastTime);
+
         update();
         render();
-        napms(50);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50 - elapsedTime.count()));
+
+        lastTime = currentTime;
+        score++;
     }
 }
 
 void Game::update() {
     checkCollisions();
 
+    /**
+     * @brief update les obstacles 
+
+     */
     for (int i = 0; i < maxObstacles; ++i) {
-        if (obstacles[i] != -1) {
-            obstacles[i]--;
-            if (obstacles[i] < 0) {
-                obstacles[i] = COLS - 1;
+        if (obstacles[i].getX() != -1) {
+            obstacles[i].setX(obstacles[i].getX() - 1);
+            if (obstacles[i].getX() < 0) {
+                obstacles[i].setX(COLS - 1);
             }
         }
     }
 
     if (rand() % 20 == 0) {
-        for (int i = 0; i < maxObstacles; ++i) {
-            if (obstacles[i] == -1) {
-                // verifier l'espacement
-                int spacing = rand() % (COLS / 4);
-                bool isValid = true;
-                for (int j = max(0, i - spacing); j < i; ++j) {
-                    if (obstacles[j] != -1 && obstacles[j] > COLS - spacing) {
-                        isValid = false;
-                        break;
-                    }
-                }
-                if (isValid && (i == 0 || obstacles[i - 1] == -1 || obstacles[i - 1] < COLS - 4 || (obstacles[i - 1] > COLS - 4 && obstacles[i - 1] < COLS - 1))) {
-                    obstacles[i] = COLS - 1;
-                    break;
-                }
-            }
+        int index = rand() % maxObstacles;
+        if (obstacles[index].getX() == -1 &&
+            (index == 0 || obstacles[index - 1].getX() < COLS - 15)) {
+            obstacles[index].setX(COLS - 1);
         }
     }
 
@@ -84,22 +105,22 @@ void Game::update() {
 
         if (jumpVelocity < -2) {
             isJumping = false;
-            jumpVelocity = 2;
+            jumpVelocity = 4;
         }
     } else {
         int newY = player.getY() + gravity;
 
-        // verifier la collision avec le sol
         if (newY >= LINES - 2) {
             player.setY(LINES - 2);
+            canDoubleJump = true; 
         } else {
             player.setY(newY);
         }
     }
 
     int ch = getch();
-    if(ch != ERR) {
-        switch(ch){
+    if (ch != ERR) {
+        switch (ch) {
             case KEY_RIGHT:
                 player.setX(player.getX() + 1);
                 break;
@@ -109,44 +130,57 @@ void Game::update() {
             case KEY_UP:
                 if (!isJumping) {
                     isJumping = true;
-                    jumpVelocity = 2;
-                } else {
-                    jumpVelocity *= 2; //super jump
+                    jumpVelocity = 4;
+                } else if (canDoubleJump) { 
+                    jumpVelocity = 4;
+                    canDoubleJump = false; 
                 }
                 break;
             case KEY_DOWN:
                 player.setY(player.getY() + 1);
                 break;
             case 'q':
-                isRunning = false;
-                break;
             case 'Q':
                 isRunning = false;
                 break;
         }
     }
-
 }
 
 void Game::render() {
+    /**
+     * @brief affichage du joueur score et ostacle
+     
+     */
     clear();
     mvaddch(player.getY(), player.getX(), 'P');
+
     for (int i = 0; i < maxObstacles; ++i) {
-        if (obstacles[i] != -1 && obstacles[i] < COLS) {
-            mvaddch(LINES - 2, obstacles[i], '*');
+        if (obstacles[i].getX() >= 0 && obstacles[i].getX() < COLS) {
+            mvaddch(LINES - 2, obstacles[i].getX(), '*');
         }
     }
     mvhline(0, 0, '-', COLS);
     mvprintw(0, COLS - 10, "Lives: %d", player.getLives());
+    mvprintw(0, 1, "Score: %d", score);
+
     refresh();
 }
 
 void Game::checkCollisions() {
+    int playerX = player.getX();
+    int playerY = player.getY();
+
     for (int i = 0; i < maxObstacles; ++i) {
-        if (obstacles[i] != -1 && obstacles[i] == player.getX() && player.getY() == LINES - 2) {
+        /**
+         * @brief Pas besoin de continuer à vérifier les collisions si le joueur est à court de vies
+         
+         */
+        if (obstacles[i].getX() != -1 && obstacles[i].getX() == playerX && playerY == LINES - 2) {
             player.loseLife();
             if (player.getLives() <= 0) {
                 isRunning = false;
+                break;  
             }
         }
     }

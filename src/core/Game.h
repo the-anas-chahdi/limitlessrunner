@@ -1,10 +1,17 @@
-//
-// Created by anasc on 25/03/2024.
-//
+/**
+ * @file Game.h
+ * @author damiyine loubna - anas chahdi
+ * @brief 
+ * @version 0.1
+ * @date 2024-04-15
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 
 #ifndef LIMITLESSRUNNER_GAME_H
 #define LIMITLESSRUNNER_GAME_H
-
+#include "Obstacle.h"
 #include "Player.h"
 #include <ncurses.h>
 #include <iostream>
@@ -16,10 +23,12 @@ private:
     bool isRunning;
     Player player;
     int maxObstacles;
-    int* obstacles;
+    Obstacle* obstacles;
     bool isJumping;
     int jumpVelocity;
     int gravity;
+    int score;
+    bool canDoubleJump;
 
 public:
     Game();
