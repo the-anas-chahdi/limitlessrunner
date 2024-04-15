@@ -1,0 +1,13 @@
+# Doxyfile for My C++ Game
+
+# Set to the directory containing the source code.
+INPUT                  = ./src/core ./src/txt ./src/sdl2
+
+# Exclude directories you don't want to include in the documentation.
+EXCLUDE                =
+
+# Set the output directory for the generated documentation.
+OUTPUT_DIRECTORY       = ./docs
+
+# Set other configurations as needed.
+# For example: PROJECT_NAME, PROJECT_LOGO, OUTPUT_LANGUAGE, etc.
